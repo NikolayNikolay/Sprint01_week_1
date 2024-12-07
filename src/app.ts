@@ -22,18 +22,20 @@ app.post('/hometask_01/api/videos', (req, res) => {
         const randomInt32 = () => Math.floor(Math.random() * (2 ** 32));
         const dataPost = new Date();
         dataPost.setDate(dataPost.getDate() + 1)
-        const newVideo = {"id": +randomInt32(),
-  "title":req.body.title ,
-  "author": req.body.author,
-  "canBeDownloaded": true,
-  "minAgeRestriction": null,
-  "createdAt": new Date().toISOString(),
-  "publicationDate": dataPost.toISOString(),
-  "availableResolutions": [
-    req.body.availableResolutions
-  ]}
-    videosDB.push(newVideo)
-    res.status(201).json(newVideo)
+        const newVideo = {
+          "id": +randomInt32(),
+          "title":req.body.title ,
+          "author": req.body.author,
+          "canBeDownloaded": true,
+          "minAgeRestriction": null,
+          "createdAt": new Date().toISOString(),
+          "publicationDate": dataPost.toISOString(),
+          "availableResolutions": [
+                  req.body.availableResolutions
+          ]
+        }
+      videosDB.push(newVideo)
+      res.status(201).json(newVideo)
     } else {
         const errorsMessage = {
             "errorsMessages": [
@@ -82,11 +84,10 @@ app.put('/hometask_01/api/videos/:id', (req, res) => {
       videoPut.canBeDownloaded = req.body.canBeDownloaded
       videoPut.minAgeRestriction = req.body.minAgeRestriction
       videoPut.publicationDate = new Date().toISOString()
-    }
-    else{
       res.sendStatus(204)
+      return
     }
-    res.sendStatus(200)}
+  }
     else{
       res.sendStatus(400).send({
         "errorsMessages": [
