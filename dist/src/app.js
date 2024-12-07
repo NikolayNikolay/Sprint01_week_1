@@ -11,6 +11,9 @@ let videosDB = db_1.default;
 exports.app = (0, express_1.default)(); // создать приложение
 exports.app.use(express_1.default.json()); // создание свойств-объектов body и query во всех реквестах
 exports.app.use((0, cors_1.default)()); // разрешить любым фронтам делать запросы на наш бэк
+exports.app.get('/', (reg, res) => {
+    res.send('to get all videos : "/videos"');
+});
 //post new video
 exports.app.post('/videos', (req, res) => {
     if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40) {

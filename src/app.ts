@@ -6,7 +6,13 @@ let videosDB = db;
 export const app = express() // создать приложение
 app.use(express.json()) // создание свойств-объектов body и query во всех реквестах
 app.use(cors()) // разрешить любым фронтам делать запросы на наш бэк
- //post new video
+
+
+app.get('/',(reg,res)=>{
+  res.send('to get all videos : "/videos"')
+})
+
+//post new video
 app.post('/videos', (req, res) => {
     if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40) {
         const randomInt32 = () => Math.floor(Math.random() * (2 ** 32));
