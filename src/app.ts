@@ -14,6 +14,10 @@ app.get('/',(reg,res)=>{
 
 //post new video
 app.post('/videos', (req, res) => {
+  if (!req.body.id) {
+    res.sendStatus(404)
+    return
+   }
     if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40) {
         const randomInt32 = () => Math.floor(Math.random() * (2 ** 32));
         const dataPost = new Date();
@@ -49,9 +53,11 @@ app.get('/videos', (req, res) => {
 })
 //get video by id
 app.get('/videos/:id', (req, res) => {
-    console.log(req.params.id)
+    if (!req.body.id) {
+      res.sendStatus(404)
+      return
+     }
     const videoId = videosDB.find(video => video.id === +req.params.id)
-    console.log(videoId)
     if (videoId) {
         res.status(200).send(videoId)
     }
@@ -62,6 +68,11 @@ app.get('/videos/:id', (req, res) => {
  })
 //put, renew video by id
 app.put('/videos/:id', (req, res) => {
+   if (!req.body.id) {
+    res.sendStatus(404)
+    return
+   }
+  
   if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40) {
     const videoPut = videosDB.find(video => video.id === +req.params.id)
     if (videoPut) {
@@ -89,6 +100,10 @@ app.put('/videos/:id', (req, res) => {
 })
 //delete video by id
 app.delete('/videos/:id', (req, res) => {
+  if (!req.body.id) {
+    res.sendStatus(404)
+    return
+   }
     const videoDelete = videosDB.filter(video => video.id !== +req.params.id)
     console.log(videosDB.length === videoDelete.length)
     if (videosDB.length !== videoDelete.length) {
