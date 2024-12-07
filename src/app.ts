@@ -13,7 +13,7 @@ app.get('/',(reg,res)=>{
 })
 
 //post new video
-app.post('/videos', (req, res) => {
+app.post('/hometask_01/api/videos', (req, res) => {
   if (!req.body.id) {
     res.sendStatus(404)
     return
@@ -47,12 +47,12 @@ app.post('/videos', (req, res) => {
     }
 })
 //get all videos
-app.get('/videos', (req, res) => {
+app.get('/hometask_01/api/videos', (req, res) => {
 
    res.status(200).send(videosDB)
 })
 //get video by id
-app.get('/videos/:id', (req, res) => {
+app.get('/hometask_01/api/videos/:id', (req, res) => {
     if (!req.body.id) {
       res.sendStatus(404)
       return
@@ -67,7 +67,7 @@ app.get('/videos/:id', (req, res) => {
     
  })
 //put, renew video by id
-app.put('/videos/:id', (req, res) => {
+app.put('/hometask_01/api/videos/:id', (req, res) => {
    if (!req.body.id) {
     res.sendStatus(404)
     return
@@ -99,7 +99,7 @@ app.put('/videos/:id', (req, res) => {
     }
 })
 //delete video by id
-app.delete('/videos/:id', (req, res) => {
+app.delete('/hometask_01/api/videos/:id', (req, res) => {
   if (!req.body.id) {
     res.sendStatus(404)
     return
