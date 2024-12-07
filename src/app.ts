@@ -116,5 +116,11 @@ app.delete('/videos/:id', (req, res) => {
 
    res.status(200).send(videosDB)
 })
+app.delete('/hometask_01/api/testing/all-data',(req,res)=>{
+  if (req.url) {
+    db.splice(0, db.length);
+    res.sendStatus(204)
+  }
+})
 // app.get(SETTINGS.PATH.VIDEOS, getVideosController)
 // app.use(SETTINGS.PATH.VIDEOS, videosRouter)
