@@ -13,7 +13,7 @@ app.get('/',(reg,res)=>{
 })
 
 //post new video
-app.post('/hometask_01/api/videos', (req, res) => {
+app.post('/videos', (req, res) => {
   if (!req.body.id) {
     res.sendStatus(404)
     return
@@ -49,12 +49,12 @@ app.post('/hometask_01/api/videos', (req, res) => {
     }
 })
 //get all videos
-app.get('/hometask_01/api/videos', (req, res) => {
+app.get('/videos', (req, res) => {
 
    res.status(200).send(videosDB)
 })
 //get video by id
-app.get('/hometask_01/api/videos/:id', (req, res) => {
+app.get('/videos/:id', (req, res) => {
     if (!req.body.id) {
       res.sendStatus(404)
       return
@@ -69,7 +69,7 @@ app.get('/hometask_01/api/videos/:id', (req, res) => {
     
  })
 //put, renew video by id
-app.put('/hometask_01/api/videos/:id', (req, res) => {
+app.put('/videos/:id', (req, res) => {
    if (!req.body.id) {
     res.sendStatus(404)
     return
@@ -100,7 +100,7 @@ app.put('/hometask_01/api/videos/:id', (req, res) => {
     }
 })
 //delete video by id
-app.delete('/hometask_01/api/videos/:id', (req, res) => {
+app.delete('/videos/:id', (req, res) => {
   if (!req.body.id) {
     res.sendStatus(404)
     return
@@ -117,7 +117,7 @@ app.delete('/hometask_01/api/videos/:id', (req, res) => {
 
    res.status(200).send(videosDB)
 })
-app.delete('/hometask_01/api/testing/all-data',(req,res)=>{
+app.delete('/testing/all-data',(req,res)=>{
   if (req.url) {
     db.splice(0, db.length);
     res.sendStatus(204)
