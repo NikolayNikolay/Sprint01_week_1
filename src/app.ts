@@ -120,7 +120,7 @@ app.delete('/videos/:id', (req, res) => {
 app.delete('/testing/all-data',(req,res)=>{
   if (req.url) {
     db.splice(0, db.length);
-    res.sendStatus(204)
+    res.send(204)
   }
 })
 // app.get(SETTINGS.PATH.VIDEOS, getVideosController)
