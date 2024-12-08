@@ -28,12 +28,10 @@ exports.app.post('/videos', (req, res) => {
             minAgeRestriction: null,
             createdAt: new Date().toISOString(),
             publicationDate: dataPost.toISOString(),
-            availableResolutions: [
-                req.body.availableResolutions
-            ]
+            availableResolutions: req.body.availableResolutions
         };
         db_1.default.videos.push(newVideo);
-        res.status(201).json(db_1.default.videos);
+        res.status(201).json(newVideo);
     }
     else {
         const errorsMessage = {
