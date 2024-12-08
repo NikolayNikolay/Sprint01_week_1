@@ -72,7 +72,7 @@ app.put('/videos/:id', (req, res) => {
       videoPut.availableResolutions.push(...req.body.availableResolutions)
       videoPut.canBeDownloaded = req.body.canBeDownloaded
       videoPut.minAgeRestriction = req.body.minAgeRestriction
-      videoPut.publicationDate = new Date().toISOString()
+      videoPut.publicationDate = req.body.publicationDate
       res.sendStatus(204)
       return
     }
