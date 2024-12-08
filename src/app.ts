@@ -69,7 +69,7 @@ app.put('/videos/:id', (req, res) => {
       const video1 : any = {}
       videoPut.title = req.body.title
       videoPut.author = req.body.author
-      videoPut.availableResolutions.push(...req.body.availableResolutions)
+      videoPut.availableResolutions = req.body.availableResolutions
       videoPut.canBeDownloaded = req.body.canBeDownloaded
       videoPut.minAgeRestriction = req.body.minAgeRestriction
       videoPut.publicationDate = req.body.publicationDate
