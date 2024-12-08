@@ -24,7 +24,7 @@ exports.app.post('/videos', (req, res) => {
             id: +randomInt32(),
             title: req.body.title,
             author: req.body.author,
-            canBeDownloaded: true,
+            canBeDownloaded: false,
             minAgeRestriction: null,
             createdAt: new Date().toISOString(),
             publicationDate: dataPost.toISOString(),
