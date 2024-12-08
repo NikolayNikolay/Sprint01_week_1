@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
-import db  from '../db/db'
+import db, { DBType,VideoDBType } from './db/db'
  
-let videosDB = db;
+//let videosDB = db.videos;
 export const app = express() // создать приложение
 app.use(express.json()) // создание свойств-объектов body и query во всех реквестах
 app.use(cors()) // разрешить любым фронтам делать запросы на наш бэк
@@ -14,23 +14,23 @@ app.get('/',(reg,res)=>{
 
 //post new video
 app.post('/videos', (req, res) => {
-    if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40) {
+    if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40 &&req.body.author.length !== 0 && req.body.title.length !==0) {
         const randomInt32 = () => Math.floor(Math.random() * (2 ** 32));
         const dataPost = new Date();
         dataPost.setDate(dataPost.getDate() + 1)
-        const newVideo = {
-          "id": +randomInt32(),
-          "title":req.body.title ,
-          "author": req.body.author,
-          "canBeDownloaded": true,
-          "minAgeRestriction": null,
-          "createdAt": new Date().toISOString(),
-          "publicationDate": dataPost.toISOString(),
-          "availableResolutions": [
-                  req.body.availableResolutions
+        const newVideo :VideoDBType = {
+          id: +randomInt32() ,
+          title:req.body.title ,
+          author: req.body.author,
+          canBeDownloaded: true,
+          minAgeRestriction: null,
+          createdAt: new Date().toISOString(),
+          publicationDate: dataPost.toISOString(),
+          availableResolutions: [
+            req.body.availableResolutions
           ]
         }
-      videosDB.push(newVideo)
+        db.videos.push(newVideo)
       res.status(201).json(newVideo)
     } else {
         const errorsMessage = {
@@ -47,28 +47,28 @@ app.post('/videos', (req, res) => {
 //get all videos
 app.get('/videos', (req, res) => {
 
-   res.status(200).send(videosDB)
+   res.status(200).json(db.videos)
 })
 //get video by id
 app.get('/videos/:id', (req, res) => {
-    if (!req.body.id) {
-      res.sendStatus(404)
-      return
-     }
-    const videoId = videosDB.find(video => video.id === +req.params.id)
-    if (videoId) {
-        res.status(200).send(videoId)
+    if (req.params.id) {
+      const videoId : DBType = db.videos.find(video => video.id === +req.params.id)
+      if (videoId) {
+        res.status(200).json(videoId)
+        return
+      }
+      else{
+        res.sendStatus(404)
+        return
+      }
     }
-    else{
-        res.send(404)
-    }
-    
  })
 //put, renew video by id
 app.put('/videos/:id', (req, res) => {
-   const videoPut = videosDB.find(video => video.id === +req.params.id)
+   const videoPut = db.videos.find(video => video.id === +req.params.id)
    if (videoPut) {
       if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40){
+      const video1 : any = {}
       videoPut.title = req.body.title
       videoPut.author = req.body.author
       videoPut.availableResolutions.push(...req.body.availableResolutions)
@@ -96,25 +96,21 @@ app.put('/videos/:id', (req, res) => {
 })
 //delete video by id
 app.delete('/videos/:id', (req, res) => {
-  if (!req.body.id) {
-    res.sendStatus(404)
-    return
-   }
-    const videoDelete = videosDB.filter(video => video.id !== +req.params.id)
-    console.log(videosDB.length === videoDelete.length)
-    if (videosDB.length !== videoDelete.length) {
-        videosDB = videoDelete
-        res.send(204)
+  if (req.url) {
+    const videoDelete = db.videos.filter(video => video.id !== +req.params.id)
+    if (db.videos.length !== videoDelete.length) {
+      db.videos = videoDelete || db.videos
+      res.sendStatus(204)
     }
     else{
-        res.send(404)
+        res.sendStatus(404)
     }
-
-   res.status(200).send(videosDB)
+   }
+    
 })
 app.delete('/testing/all-data',(req,res)=>{
   if (req.url) {
-    db.splice(0, db.length);
+    db.videos.splice(0, db.videos.length);
     res.send(204)
   }
 })
