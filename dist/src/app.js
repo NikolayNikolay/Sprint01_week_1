@@ -33,7 +33,7 @@ exports.app.post('/videos', (req, res) => {
             ]
         };
         db_1.default.videos.push(newVideo);
-        res.status(201).json(newVideo);
+        res.status(201).json(db_1.default.videos);
     }
     else {
         const errorsMessage = {

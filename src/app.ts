@@ -31,7 +31,7 @@ app.post('/videos', (req, res) => {
           ]
         }
         db.videos.push(newVideo)
-      res.status(201).json(newVideo)
+      res.status(201).json(db.videos)
     } else {
         const errorsMessage = {
             "errorsMessages": [
