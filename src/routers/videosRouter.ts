@@ -2,7 +2,7 @@ import { Router, Request,Response } from "express";
 import db, { DBType,VideoDBType } from '../db/db';
 
 
-import { titleValidate, authorValidate, availableResolutionsValidate } from "../validation/bodyValidation";
+import { titleValidate, authorValidate, availableResolutionsValidate, booleanValidate } from "../validation/bodyValidation";
 
 
 export const videosRouter = Router();
@@ -37,7 +37,7 @@ videosRouter.post('/', (req:Request, res:Response) => {
   availableResolutionsValidate(req.body.availableResolutions, errorsArray)
 
   if (errorsArray.errorsMessages.length) {
-    res.status(400).json(errorsArray.errorsMessages)
+    res.status(400).json(errorsArray)
   }
     else{
     const randomInt32 = () => Math.floor(Math.random() * (2 ** 32));
@@ -89,32 +89,52 @@ videosRouter.post('/', (req:Request, res:Response) => {
 videosRouter.put('/:id', (req:Request, res:Response) => {
     const videoPut = db.videos.find(video => video.id === +req.params.id)
     if (videoPut) {
-       if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40){
-       const video1 : any = {}
-       videoPut.title = req.body.title
-       videoPut.author = req.body.author
-       videoPut.availableResolutions = req.body.availableResolutions
-       videoPut.canBeDownloaded = req.body.canBeDownloaded
-       videoPut.minAgeRestriction = req.body.minAgeRestriction
-       videoPut.publicationDate = req.body.publicationDate
-       res.sendStatus(204)
-       return
-     }
-     else{
-       res.sendStatus(400).send({
-         "errorsMessages": [
-           {
-             "message": "string",
-             "field": "string"
-           }
-         ]
-       })
-     }
-   }
-     else{
-       res.sendStatus(404)
-       
-     }
+      const errorsArray : any = {
+        errorsMessages: []
+      }
+      titleValidate(req.body.title, errorsArray)
+      authorValidate(req.body.author, errorsArray)
+      availableResolutionsValidate(req.body.availableResolutions, errorsArray)
+      booleanValidate(req.body.canBeDownloaded, errorsArray)
+      if (errorsArray.errorsMessages.length) {
+        res.status(400).json(errorsArray)
+      }
+        else{
+          const video1 : any = {}
+        videoPut.title = req.body.title
+        videoPut.author = req.body.author
+        videoPut.availableResolutions = req.body.availableResolutions
+        videoPut.canBeDownloaded = req.body.canBeDownloaded
+        videoPut.minAgeRestriction = req.body.minAgeRestriction
+        videoPut.publicationDate = req.body.publicationDate
+        res.sendStatus(204)
+        return
+        }
+      //   if (typeof req.body.title === 'string' && typeof req.body.author === 'string' && req.body.availableResolutions.length !== 0 && req.body.author.length <= 40 && req.body.title.length <= 40){
+      //   const video1 : any = {}
+      //   videoPut.title = req.body.title
+      //   videoPut.author = req.body.author
+      //   videoPut.availableResolutions = req.body.availableResolutions
+      //   videoPut.canBeDownloaded = req.body.canBeDownloaded
+      //   videoPut.minAgeRestriction = req.body.minAgeRestriction
+      //   videoPut.publicationDate = req.body.publicationDate
+      //   res.sendStatus(204)
+      //   return
+      // }
+      // else{
+      //   res.sendStatus(400).send({
+      //     "errorsMessages": [
+      //       {
+      //         "message": "string",
+      //         "field": "string"
+      //       }
+      //     ]
+      //   })
+      // }
+    }
+      else{
+        res.sendStatus(404)
+      }
 })
  //delete video by id
 videosRouter.delete('/:id', (req:Request, res:Response) => {

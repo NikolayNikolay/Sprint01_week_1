@@ -51,3 +51,14 @@ export const availableResolutionsValidate = (available:any , errors:any)=>{
        return errors
   }
 }
+
+
+export const booleanValidate = (data:any, errors:any)=>{
+   if (typeof data === 'boolean') {
+      errors.errorsMessages.push({
+         message: "'canBeDownloaded' is not boolean",
+         field: "canBeDownloaded"
+       });
+       return errors
+   }
+}
