@@ -24,7 +24,7 @@ export const authorValidate = (author:any , errors: any)=>{
        });
        return errors
    }
-   if (author.trim().length > 40 ) {
+   if (author.trim().length > 20 ) {
       errors.errorsMessages.push({
          message: "'author' length more 40",
          field: "author"
@@ -54,7 +54,7 @@ export const availableResolutionsValidate = (available:any , errors:any)=>{
 
 
 export const booleanValidate = (data:any, errors:any)=>{
-   if (typeof data === 'boolean') {
+   if (typeof data !== 'boolean') {
       errors.errorsMessages.push({
          message: "'canBeDownloaded' is not boolean",
          field: "canBeDownloaded"

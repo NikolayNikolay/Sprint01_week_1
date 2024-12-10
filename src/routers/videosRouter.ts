@@ -100,7 +100,6 @@ videosRouter.put('/:id', (req:Request, res:Response) => {
         res.status(400).json(errorsArray)
       }
         else{
-          const video1 : any = {}
         videoPut.title = req.body.title
         videoPut.author = req.body.author
         videoPut.availableResolutions = req.body.availableResolutions
