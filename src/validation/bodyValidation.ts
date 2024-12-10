@@ -62,3 +62,25 @@ export const booleanValidate = (data:any, errors:any)=>{
        return errors
    }
 }
+
+
+export const  minAgeRestrictionValidate = (age:any, errors:any)=>{
+   if (typeof age !== 'number' || age > 18 || age < 1 || age === null) {
+      errors.errorsMessages.push({
+         message: "'minAgeRestriction' is not correct",
+         field: "minAgeRestriction"
+       });
+       return errors
+   }
+}
+
+
+export const publicationDateValidate = (data:any, errors:any)=>{
+   if (typeof data !== 'string' || data.trim() === '') {
+      errors.errorsMessages.push({
+         message: "'publicationDate' should be a non-empty string",
+         field: "publicationDate"
+       });
+       return errors
+   }
+}

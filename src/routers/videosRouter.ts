@@ -2,7 +2,7 @@ import { Router, Request,Response } from "express";
 import db, { DBType,VideoDBType } from '../db/db';
 
 
-import { titleValidate, authorValidate, availableResolutionsValidate, booleanValidate } from "../validation/bodyValidation";
+import { titleValidate, authorValidate, availableResolutionsValidate, booleanValidate , minAgeRestrictionValidate , publicationDateValidate } from "../validation/bodyValidation";
 
 
 export const videosRouter = Router();
@@ -96,6 +96,9 @@ videosRouter.put('/:id', (req:Request, res:Response) => {
       authorValidate(req.body.author, errorsArray)
       availableResolutionsValidate(req.body.availableResolutions, errorsArray)
       booleanValidate(req.body.canBeDownloaded, errorsArray)
+      minAgeRestrictionValidate(req.body.minAgeRestriction, errorsArray)
+      publicationDateValidate(req.body.publicationDate, errorsArray)
+      
       if (errorsArray.errorsMessages.length) {
         res.status(400).json(errorsArray)
       }
@@ -103,7 +106,7 @@ videosRouter.put('/:id', (req:Request, res:Response) => {
         videoPut.title = req.body.title
         videoPut.author = req.body.author
         videoPut.availableResolutions = req.body.availableResolutions
-        videoPut.canBeDownloaded = req.body.canBeDownloaded
+        videoPut.canBeDownloaded = req.body.canBeDownloaded || false
         videoPut.minAgeRestriction = req.body.minAgeRestriction
         videoPut.publicationDate = req.body.publicationDate
         res.sendStatus(204)
